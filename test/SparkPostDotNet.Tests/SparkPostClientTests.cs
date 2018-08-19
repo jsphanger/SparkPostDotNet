@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using Transmissions;
+    using Suppressions;
     using Xunit;
     using Options = Microsoft.Extensions.Options.Options;
 
@@ -35,6 +36,31 @@
             recipient.Address.EMail = $"testrecipient@{this.SendingDomain}";
             transmission.Recipients.Add(recipient);
             await this.Client.CreateTransmission(transmission);
+        }
+
+        [Fact]
+        public async Task AddSuppression()
+        {
+            var suppression = new Suppression()
+            {
+                RecipientEmail = "testuser@test.com",
+                Type = "transactional",
+                Description = "Unsubscribe from newsletter"
+            };
+
+            await this.Client.UpdateSuppressionAsync(suppression);
+        }
+
+        [Fact]
+        public async Task RemoveSuppression()
+        {
+            var suppression = new Suppression()
+            {
+                RecipientEmail = "testuser@test.com",
+                Type = "transactional"
+            };
+
+            await this.Client.UpdateSuppressionAsync(suppression);
         }
     }
 }
