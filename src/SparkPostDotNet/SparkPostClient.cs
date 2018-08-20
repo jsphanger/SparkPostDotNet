@@ -32,7 +32,7 @@
                 transmission.Headers.Clear();
                 transmission.Headers.Add("Content-Type", "application/json");
                 httpClient.DefaultRequestHeaders.Add("Authorization", this.Options.ApiKey);
-                var response = await httpClient.PutAsync(SparkPostUri, transmission);
+                var response = await httpClient.PostAsync(SparkPostUri, transmission);
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception(await response.Content.ReadAsStringAsync());
